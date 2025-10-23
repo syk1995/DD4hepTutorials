@@ -129,7 +129,10 @@ bool Geant4SensitiveAction<simplecaloSDData>::process(
   Geant4HitCollection *coll = collection(m_collectionID);
   Geant4Calorimeter::Hit *hit =
       coll->findByKey<Geant4Calorimeter::Hit>(VolID); // the hit
-
+  G4double steplength = aStep->GetStepLength();
+  if (steplength >0.5){
+    std::cout<<"Warning: large step length in simplecalo: "<<steplength<<" mm"<<std::endl;
+  }
   if (!hit) { // if the hit does not exist yet, create it
     hit = new Geant4Calorimeter::Hit();
     hit->cellID = VolID; // this should be assigned only once
@@ -141,7 +144,8 @@ bool Geant4SensitiveAction<simplecaloSDData>::process(
   } else {                 // if the hit exists already, increment its fields
     hit->energyDeposit += aStep->GetTotalEnergyDeposit();
   }
-
+  // std::cout<<"Step length: "<<aStep->GetStepLength()<<" mm"<<" energy deposit: "
+  // <<aStep->GetTotalEnergyDeposit()<<" MeV"<<std::endl;
   return true;
 } // end of Geant4SensitiveAction::process() method specialization
 
