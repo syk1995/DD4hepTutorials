@@ -1,0 +1,10 @@
+build*/
+install*/
+lib*/
+lib64*/
+share*/
+bin*/
+*.root
+*.gdml
+*.swp
+*.png
